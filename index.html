@@ -10,15 +10,20 @@
 
 <script>
   const canvas = document.querySelector('#draw');
+
+  // Constant for interacting with the canvas
   const ctx = canvas.getContext('2d');
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  ctx.strokeStyle = '#BADA55';
+
+  // Line features
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.lineWidth = 100;
   // ctx.globalCompositeOperation = 'multiply';
 
+  // Variables for controlling the line
   let isDrawing = false;
   let lastX = 0;
   let lastY = 0;
@@ -27,17 +32,22 @@
 
   // Click and drag functionality
   function draw(e) {
-    if (!isDrawing) return; // stop the function from running when they are not moused down
+    if (!isDrawing) return; // stop the function from running when the mouse is not down
     console.log(e);
     ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
     ctx.beginPath();
-    // Start from
+
+    // Starting x and y coordinates
     ctx.moveTo(lastX, lastY);
-    // Go to
+
+    // Go-to x and y coordinates
     ctx.lineTo(e.offsetX, e.offsetY);
     ctx.stroke();
-    // Destructure the array with ES6
+
+    // Let x and y coordinates be defined by mouse clicks. Trick: Destructuring the array with ES6.
     [lastX, lastY] = [e.offsetX, e.offsetY];
+
+    // Define the changing hue and line weight
     hue++;
     if (hue >= 360) {
       hue = 0;
@@ -53,6 +63,7 @@
     }
   }
 
+  // Mouse event listeners
   canvas.addEventListener('mousedown', (e) => {
     isDrawing = true;
     [lastX, lastY] = [e.offsetX, e.offsetY];
@@ -61,7 +72,6 @@
   canvas.addEventListener('mousemove', draw);
   canvas.addEventListener('mouseup', () => isDrawing = false);
   canvas.addEventListener('mouseout', () => isDrawing = false);
-
 
 </script>
 
